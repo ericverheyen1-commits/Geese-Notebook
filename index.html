@@ -186,8 +186,7 @@
                 <option>Old School</option>
                 <option>Kickers Win Championships</option>
                 <option>SKEEYEE</option>
-                <option>   
-                1K Wolfpack</option>
+                <option>1K Wolfpack</option
                 <option>Team Gross</option>
                 <option>Judkins Knuckles</option>
                 <option>Trash Pandas</option>
@@ -247,22 +246,17 @@ let entries = [];
 let sortField = 'Week';
 let sortAsc = true;
 
-async function loadData() {
-    try {
-        const response = await fetch(SHEET_URL, {
-          redirect: 'follow',
-          mode: 'no-cors'
-        });
-        const text = await response.text();
-        const data = JSON.parse(text);
-        entries = data.filter(row => row['Player'] && row['Player'] !== '');
-        renderTable();
-        renderLeaderboard();
-        updateStats();
-    } catch(err) {
-        console.error('Error loading data:', err);
-        showToast('Error loading data from Google Sheet!', true);
-    }
+function loadData() {
+    var script = document.createElement('script');
+    script.src = SHEET_URL + '?callback=handleData';
+    document.body.appendChild(script);
+}
+
+function handleData(data) {
+    entries = data.filter(row => row['Player'] && row['Player'] !== '');
+    renderTable();
+    renderLeaderboard();
+    updateStats();
 }
 
 function sortBy(field) {
@@ -376,7 +370,7 @@ function updateStats() {
     document.getElementById('stat-iced').textContent  = iced;
 }
 
-async function addEntry() {
+function addEntry() {
     const week        = document.getElementById('form-week').value;
     const player      = document.getElementById('form-player').value.trim();
     const nflTeam     = document.getElementById('form-nfl-team').value.trim();
@@ -402,20 +396,22 @@ async function addEntry() {
         team: nflTeam,
         position, fantasyTeam,
         date, opponent,
-        reason, notes
+        reason, notes,
+        callback: 'handleAdd'
     });
 
-    try {
-        await fetch(SHEET_URL + '?' + params.toString());
-        showToast(player + ' added to the Shame List! 🏈');
-        clearForm();
-        setTimeout(loadData, 2000);
-    } catch(err) {
-        showToast('Error saving entry!', true);
-    }
+    var script = document.createElement('script');
+    script.src = SHEET_URL + '?' + params.toString();
+    document.body.appendChild(script);
+}
 
+function handleAdd(response) {
+    showToast('Entry added to the Shame List! 🏈');
+    clearForm();
+    const btn = document.getElementById('submit-btn');
     btn.disabled = false;
     btn.textContent = '➕ Add To Shame List';
+    setTimeout(loadData, 1000);
 }
 
 function clearForm() {
