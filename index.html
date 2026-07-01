@@ -186,7 +186,7 @@
                 <option>Old School</option>
                 <option>Kickers Win Championships</option>
                 <option>SKEEYEE</option>
-                <option>1K Wolfpack</option
+                <option>1K Wolfpack</option>
                 <option>Team Gross</option>
                 <option>Judkins Knuckles</option>
                 <option>Trash Pandas</option>
@@ -247,13 +247,17 @@ let sortField = 'Week';
 let sortAsc = true;
 
 function loadData() {
+    console.log('Script started');
     var script = document.createElement('script');
     script.src = SHEET_URL + '?callback=handleData';
     document.body.appendChild(script);
 }
 
 function handleData(data) {
+    console.log('handleData called');
+    console.log('Data received:', data);
     entries = data.filter(row => row['Player'] && row['Player'] !== '');
+    console.log('Entries after filter:', entries);
     renderTable();
     renderLeaderboard();
     updateStats();
