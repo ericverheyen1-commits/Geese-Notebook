@@ -514,3 +514,361 @@
                     <option value="TE">TE</option>
                     <option value="K">K</option>
                     <option value="DEF">DEF</option>
+                                    </select>
+            </div>
+
+            <div class="form-group">
+                <label>Fantasy Team</label>
+                <select id="form-fantasy-team">
+                    <option value="">Select Fantasy Team</option>
+                    <option>Team Dallas D</option>
+                    <option>Slurpy Boys</option>
+                    <option>Flyin' Oafs</option>
+                    <option>New School</option>
+                    <option>Old School</option>
+                    <option>Kickers Win Championships</option>
+                    <option>SKEEYEE</option>
+                    <option>1K Wolfpack</option>
+                    <option>Team Gross</option>
+                    <option>Judkins Knuckles</option>
+                    <option>Trash Pandas</option>
+                    <option>Hollygrove Squabblers</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Game Date</label>
+                <input type="date" id="form-date">
+            </div>
+
+            <div class="form-group">
+                <label>Opponent</label>
+                <input type="text" id="form-opponent"
+                       placeholder="e.g. DAL vs NYG">
+            </div>
+
+            <div class="form-group">
+                <label>Reason</label>
+                <input type="text" id="form-reason"
+                       placeholder="e.g. DNP, Injured, Bye Week">
+            </div>
+
+            <div class="form-group">
+                <label>Notes</label>
+                <textarea id="form-notes"
+                          placeholder="Any additional notes..."></textarea>
+            </div>
+
+            <button class="btn-add" onclick="addEntry()">
+                ➕ Add To Shame List
+            </button>
+        </div>
+
+    </div>
+
+    <div class="table-section">
+
+        <div class="table-controls">
+            <input type="text"
+                   id="search-input"
+                   placeholder="🔍 Search player or team..."
+                   oninput="renderTable()">
+            <select id="filter-week" onchange="renderTable()">
+                <option value="all">All Weeks</option>
+                <option>1</option><option>2</option>
+                <option>3</option><option>4</option>
+                <option>5</option><option>6</option>
+                <option>7</option><option>8</option>
+                <option>9</option><option>10</option>
+                <option>11</option><option>12</option>
+                <option>13</option><option>14</option>
+                <option>15</option><option>16</option>
+                <option>17</option>
+            </select>
+            <select id="filter-team" onchange="renderTable()">
+                <option value="all">All Teams</option>
+                <option>Team Dallas D</option>
+                <option>Slurpy Boys</option>
+                <option>Flyin' Oafs</option>
+                <option>New School</option>
+                <option>Old School</option>
+                <option>Kickers Win Championships</option>
+                <option>SKEEYEE</option>
+                <option>1K Wolfpack</option>
+                <option>Team Gross</option>
+                <option>Judkins Knuckles</option>
+                <option>Trash Pandas</option>
+                <option>Hollygrove Squabblers</option>
+            </select>
+            <select id="filter-position" onchange="renderTable()">
+                <option value="all">All Positions</option>
+                <option value="QB">QB</option>
+                <option value="RB">RB</option>
+                <option value="WR">WR</option>
+                <option value="TE">TE</option>
+                <option value="K">K</option>
+                <option value="DEF">DEF</option>
+            </select>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th onclick="sortBy('Week')">Week ↕</th>
+                        <th onclick="sortBy('Date')">Date ↕</th>
+                        <th onclick="sortBy('Player')">Player ↕</th>
+                        <th>NFL Team</th>
+                        <th onclick="sortBy('Position')">Pos ↕</th>
+                        <th onclick="sortBy('Fantasy Team')">Fantasy Team ↕</th>
+                        <th>Opponent</th>
+                        <th>Points</th>
+                        <th>Reason</th>
+                        <th>Notes</th>
+                        <th onclick="sortBy('Ice Drank?')">Ice Drank? 🍋 ↕</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="empty-state" id="empty-state">
+            <div class="big-zero">0</div>
+            <p>No zero point players yet.</p>
+            <p style="font-size:0.85rem; margin-top:8px;">
+                Add an entry to your Google Sheet!
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<footer class="footer">
+    <p>
+        🏈 Steve Harvey's Goose Notebook &nbsp;|&nbsp;
+        <a href="https://www.espn.com/fantasy/football/"
+           target="_blank">
+            ESPN Fantasy Football ↗
+        </a>
+    </p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzDKbCfScC8e64tBQzSkl6acE-GJSFqpGSv0mfhfryEgZdKdgaGBvcm7bdRJfOgT3ql0Q/exec';
+
+let entries = [];
+let sortField = 'Week';
+let sortAsc = true;
+
+async function loadData() {
+    try {
+        const res = await fetch(SHEET_URL);
+        const data = await res.json();
+        entries = data.filter(row => row['Player'] && row['Player'] !== '');
+        renderTable();
+        renderLeaderboard();
+        updateStats();
+    } catch(err) {
+        console.error('Error loading data:', err);
+        showToast('Error loading data from Google Sheet!', true);
+    }
+}
+
+function sortBy(field) {
+    if (sortField === field) {
+        sortAsc = !sortAsc;
+    } else {
+        sortField = field;
+        sortAsc = true;
+    }
+    renderTable();
+}
+
+function renderTable() {
+    const search   = document.getElementById('search-input').value.toLowerCase();
+    const week     = document.getElementById('filter-week').value;
+    const team     = document.getElementById('filter-team').value;
+    const position = document.getElementById('filter-position').value;
+
+    let filtered = entries.filter(e => {
+        const matchSearch =
+            String(e['Player']).toLowerCase().includes(search) ||
+            String(e['Fantasy Team']).toLowerCase().includes(search) ||
+            String(e['Team']).toLowerCase().includes(search) ||
+            String(e['Opponent']).toLowerCase().includes(search);
+        const matchWeek =
+            week === 'all' || String(e['Week']) === String(week);
+        const matchTeam =
+            team === 'all' || e['Fantasy Team'] === team;
+        const matchPos =
+            position === 'all' || e['Position'] === position;
+        return matchSearch && matchWeek && matchTeam && matchPos;
+    });
+
+    filtered.sort((a, b) => {
+        let valA = a[sortField];
+        let valB = b[sortField];
+        if (typeof valA === 'string') {
+            valA = valA.toLowerCase();
+            valB = valB.toLowerCase();
+        }
+        if (valA < valB) return sortAsc ? -1 : 1;
+        if (valA > valB) return sortAsc ? 1 : -1;
+        return 0;
+    });
+
+    const tbody      = document.getElementById('table-body');
+    const emptyState = document.getElementById('empty-state');
+
+    if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+    }
+
+    emptyState.style.display = 'none';
+
+    tbody.innerHTML = filtered.map((e, i) => `
+        <tr>
+            <td><strong>Week ${e['Week']}</strong></td>
+            <td style="white-space:nowrap;">${e['Date'] || '—'}</td>
+            <td><strong>${e['Player']}</strong></td>
+            <td>${e['Team'] || '—'}</td>
+            <td>
+                <span class="badge badge-${e['Position']}">
+                    ${e['Position'] || '—'}
+                </span>
+            </td>
+            <td>${e['Fantasy Team'] || '—'}</td>
+            <td>${e['Opponent'] || '—'}</td>
+            <td class="points-zero">0</td>
+            <td style="color:#888; font-size:0.85rem;">
+                ${e['Reason'] || '—'}
+            </td>
+            <td class="notes-cell" title="${e['Notes'] || ''}">
+                ${e['Notes'] || '—'}
+            </td>
+            <td style="text-align:center;">
+                ${e['Ice Drank?'] === 'TRUE' || e['Ice Drank?'] === true
+                    ? '🍋'
+                    : '—'}
+            </td>
+        </tr>
+    `).join('');
+}
+
+function renderLeaderboard() {
+    const counts = {};
+    entries.forEach(e => {
+        const team = e['Fantasy Team'];
+        if (team) counts[team] = (counts[team] || 0) + 1;
+    });
+
+    const sorted = Object.entries(counts)
+        .sort((a, b) => b[1] - a[1]);
+
+    const board = document.getElementById('leaderboard');
+
+    if (sorted.length === 0) {
+        board.innerHTML =
+            '<p style="color:#555; font-size:0.85rem;">No entries yet.</p>';
+        return;
+    }
+
+    const medals = ['🥇', '🥈', '🥉'];
+
+    board.innerHTML = sorted.map(([team, count], i) => `
+        <div class="leaderboard-item ${i === 0 ? 'first-place' : ''}">
+            <span class="team-rank">
+                ${medals[i] || `#${i + 1}`}
+            </span>
+            <span class="team-name">${team}</span>
+            <span class="team-count">${count}</span>
+        </div>
+    `).join('');
+}
+
+function updateStats() {
+    const total = entries.length;
+
+    const teams = new Set(
+        entries.map(e => e['Fantasy Team'])
+    ).size;
+
+    const latestWeek = entries.length > 0
+        ? Math.max(...entries.map(e => parseInt(e['Week']) || 0))
+        : '--';
+
+    const counts = {};
+    entries.forEach(e => {
+        const team = e['Fantasy Team'];
+        if (team) counts[team] = (counts[team] || 0) + 1;
+    });
+    const worst = counts && Object.keys(counts).length > 0
+        ? Math.max(...Object.values(counts))
+        : 0;
+
+    const iced = entries.filter(e =>
+        e['Ice Drank?'] === 'TRUE' || e['Ice Drank?'] === true
+    ).length;
+
+    document.getElementById('stat-total').textContent = total;
+    document.getElementById('stat-teams').textContent = teams;
+    document.getElementById('stat-week').textContent  = latestWeek;
+    document.getElementById('stat-worst').textContent = worst;
+    document.getElementById('stat-iced').textContent  = iced;
+}
+
+function addEntry() {
+    const week        = document.getElementById('form-week').value;
+    const player      = document.getElementById('form-player').value.trim();
+    const nflTeam     = document.getElementById('form-nfl-team').value.trim();
+    const position    = document.getElementById('form-position').value;
+    const fantasyTeam = document.getElementById('form-fantasy-team').value;
+    const date        = document.getElementById('form-date').value;
+    const opponent    = document.getElementById('form-opponent').value.trim();
+    const reason      = document.getElementById('form-reason').value.trim();
+    const notes       = document.getElementById('form-notes').value.trim();
+
+    if (!week || !player || !nflTeam || !position || !fantasyTeam) {
+        showToast('Please fill in all required fields!', true);
+        return;
+    }
+
+    showToast(`${player} added! Update your Google Sheet to see them here. 🏈`);
+    clearForm();
+}
+
+function clearForm() {
+    document.getElementById('form-week').value         = '';
+    document.getElementById('form-player').value       = '';
+    document.getElementById('form-nfl-team').value     = '';
+    document.getElementById('form-position').value     = '';
+    document.getElementById('form-fantasy-team').value = '';
+    document.getElementById('form-date').value         = '';
+    document.getElementById('form-opponent').value     = '';
+    document.getElementById('form-reason').value       = '';
+    document.getElementById('form-notes').value        = '';
+}
+
+let toastTimer;
+function showToast(msg, isError = false) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = 'toast' + (isError ? ' error' : '') + ' show';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        toast.className = 'toast';
+    }, 3000);
+}
+
+loadData();
+setInterval(loadData, 30000);
+
+</script>
+</body>
+</html>
