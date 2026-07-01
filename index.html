@@ -187,7 +187,7 @@
                 <option>Kickers Win Championships</option>
                 <option>SKEEYEE</option>
                 <option>1K Wolfpack</option>
-                <option>Team Gross
+                <option>Team Gross</option>
                 <option>Judkins Knuckles</option>
                 <option>Trash Pandas</option>
                 <option>Hollygrove Squabblers</option>
@@ -207,17 +207,17 @@
             <table>
                 <thead>
                     <tr>
-                        <th onclick="sortBy('Week')">Week ↕</th>
-                        <th onclick="sortBy('Date')">Date ↕</th>
-                        <th onclick="sortBy('Player')">Player ↕</th>
+                        <th onclick="sortBy('week')">Week ↕</th>
+                        <th onclick="sortBy('date')">Date ↕</th>
+                        <th onclick="sortBy('player')">Player ↕</th>
                         <th>NFL Team</th>
-                        <th onclick="sortBy('Position')">Pos ↕</th>
-                        <th onclick="sortBy('Fantasy Team')">Fantasy Team ↕</th>
+                        <th onclick="sortBy('position')">Pos ↕</th>
+                        <th onclick="sortBy('fantasy_team')">Fantasy Team ↕</th>
                         <th>Opponent</th>
                         <th>Points</th>
                         <th>Reason</th>
                         <th>Notes</th>
-                        <th onclick="sortBy('Ice Drank?')">Ice Drank? 🍋 ↕</th>
+                        <th>Ice Drank? 🍋</th>
                     </tr>
                 </thead>
                 <tbody id="table-body"></tbody>
@@ -241,29 +241,31 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycby3q6CbiGV6_R8IbZhz4CxwyaHBUIfZDwB2jN4ZnLPbNBYAa2gRKJotLzlqaQQA6Gm3bA/exec';
+const SUPABASE_URL = 'https://yugecznvvidzsylsuwsu.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1Z2Vjem52dmlkenN5bHN1d3N1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MjE2NTIsImV4cCI6MjA5ODQ5NzY1Mn0.BmYxQ1Irwv6QAM1BTXgU5N74R8gOWJyq4X-IBab4cjo';
+
 let entries = [];
-let sortField = 'Week';
+let sortField = 'week';
 let sortAsc = true;
 
-function loadData() {
-    var old = document.getElementById('jsonp-script');
-    if (old) old.parentNode.removeChild(old);
-    var script = document.createElement('script');
-    script.id = 'jsonp-script';
-    script.src = SHEET_URL + '?callback=handleData&t=' + Date.now();
-    document.body.appendChild(script);
-}
-
-function handleData(data) {
-    if (!Array.isArray(data)) {
-        showToast('Error loading data!', true);
-        return;
+async function loadData() {
+    try {
+        const res = await fetch(SUPABASE_URL + '/rest/v1/entries?select=*&order=created_at.desc', {
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_KEY
+            }
+        });
+        const data = await res.json();
+        if (Array.isArray(data)) {
+            entries = data;
+            renderTable();
+            renderLeaderboard();
+            updateStats();
+        }
+    } catch(err) {
+        console.log('Error loading data:', err);
     }
-    entries = data.filter(row => row['Player'] && row['Player'] !== '');
-    renderTable();
-    renderLeaderboard();
-    updateStats();
 }
 
 function sortBy(field) {
@@ -284,13 +286,13 @@ function renderTable() {
 
     let filtered = entries.filter(e => {
         const matchSearch =
-            String(e['Player']).toLowerCase().includes(search) ||
-            String(e['Fantasy Team']).toLowerCase().includes(search) ||
-            String(e['Team']).toLowerCase().includes(search) ||
-            String(e['Opponent']).toLowerCase().includes(search);
-        const matchWeek = week === 'all' || String(e['Week']) === String(week);
-        const matchTeam = team === 'all' || e['Fantasy Team'] === team;
-        const matchPos  = position === 'all' || e['Position'] === position;
+            String(e.player || '').toLowerCase().includes(search) ||
+            String(e.fantasy_team || '').toLowerCase().includes(search) ||
+            String(e.team || '').toLowerCase().includes(search) ||
+            String(e.opponent || '').toLowerCase().includes(search);
+        const matchWeek = week === 'all' || String(e.week) === String(week);
+        const matchTeam = team === 'all' || e.fantasy_team === team;
+        const matchPos  = position === 'all' || e.position === position;
         return matchSearch && matchWeek && matchTeam && matchPos;
     });
 
@@ -316,17 +318,17 @@ function renderTable() {
 
     tbody.innerHTML = filtered.map((e) => `
         <tr>
-            <td><strong>Week ${e['Week']}</strong></td>
-            <td style="white-space:nowrap;">${e['Date'] || '—'}</td>
-            <td><strong>${e['Player']}</strong></td>
-            <td>${e['Team'] || '—'}</td>
-            <td><span class="badge badge-${e['Position']}">${e['Position'] || '—'}</span></td>
-            <td>${e['Fantasy Team'] || '—'}</td>
-            <td>${e['Opponent'] || '—'}</td>
+            <td><strong>Week ${e.week}</strong></td>
+            <td style="white-space:nowrap;">${e.date || '—'}</td>
+            <td><strong>${e.player}</strong></td>
+            <td>${e.team || '—'}</td>
+            <td><span class="badge badge-${e.position}">${e.position || '—'}</span></td>
+            <td>${e.fantasy_team || '—'}</td>
+            <td>${e.opponent || '—'}</td>
             <td class="points-zero">0</td>
-            <td style="color:#888; font-size:0.85rem;">${e['Reason'] || '—'}</td>
-            <td class="notes-cell" title="${e['Notes'] || ''}">${e['Notes'] || '—'}</td>
-            <td style="text-align:center;">${e['Ice Drank?'] === 'TRUE' || e['Ice Drank?'] === true ? '🍋' : '—'}</td>
+            <td style="color:#888; font-size:0.85rem;">${e.reason || '—'}</td>
+            <td class="notes-cell" title="${e.notes || ''}">${e.notes || '—'}</td>
+            <td style="text-align:center;">${e.ice_drank ? '🍋' : '—'}</td>
         </tr>
     `).join('');
 }
@@ -334,7 +336,7 @@ function renderTable() {
 function renderLeaderboard() {
     const counts = {};
     entries.forEach(e => {
-        const team = e['Fantasy Team'];
+        const team = e.fantasy_team;
         if (team) counts[team] = (counts[team] || 0) + 1;
     });
 
@@ -358,17 +360,17 @@ function renderLeaderboard() {
 
 function updateStats() {
     const total = entries.length;
-    const teams = new Set(entries.map(e => e['Fantasy Team'])).size;
+    const teams = new Set(entries.map(e => e.fantasy_team)).size;
     const latestWeek = entries.length > 0
-        ? Math.max(...entries.map(e => parseInt(e['Week']) || 0))
+        ? Math.max(...entries.map(e => parseInt(e.week) || 0))
         : '--';
     const counts = {};
     entries.forEach(e => {
-        const team = e['Fantasy Team'];
+        const team = e.fantasy_team;
         if (team) counts[team] = (counts[team] || 0) + 1;
     });
     const worst = Object.keys(counts).length > 0 ? Math.max(...Object.values(counts)) : 0;
-    const iced  = entries.filter(e => e['Ice Drank?'] === 'TRUE' || e['Ice Drank?'] === true).length;
+    const iced  = entries.filter(e => e.ice_drank).length;
 
     document.getElementById('stat-total').textContent = total;
     document.getElementById('stat-teams').textContent = teams;
@@ -377,7 +379,7 @@ function updateStats() {
     document.getElementById('stat-iced').textContent  = iced;
 }
 
-function addEntry() {
+async function addEntry() {
     const week        = document.getElementById('form-week').value;
     const player      = document.getElementById('form-player').value.trim();
     const nflTeam     = document.getElementById('form-nfl-team').value.trim();
@@ -397,28 +399,39 @@ function addEntry() {
     btn.disabled = true;
     btn.textContent = 'Saving...';
 
-    const params = new URLSearchParams({
-        action: 'add',
-        week, player,
-        team: nflTeam,
-        position, fantasyTeam,
-        date, opponent,
-        reason, notes,
-        callback: 'handleAdd'
-    });
+    try {
+        const res = await fetch(SUPABASE_URL + '/rest/v1/entries', {
+            method: 'POST',
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_KEY,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({
+                week, player,
+                team: nflTeam,
+                position,
+                fantasy_team: fantasyTeam,
+                date, opponent,
+                reason, notes,
+                ice_drank: false
+            })
+        });
 
-    var script = document.createElement('script');
-    script.src = SHEET_URL + '?' + params.toString();
-    document.body.appendChild(script);
-}
+        if (res.ok) {
+            showToast('Entry added to the Shame List! 🏈');
+            clearForm();
+            loadData();
+        } else {
+            showToast('Error saving entry!', true);
+        }
+    } catch(err) {
+        showToast('Error saving entry!', true);
+    }
 
-function handleAdd(response) {
-    showToast('Entry added to the Shame List! 🏈');
-    clearForm();
-    const btn = document.getElementById('submit-btn');
     btn.disabled = false;
     btn.textContent = '➕ Add To Shame List';
-    setTimeout(loadData, 1500);
 }
 
 function clearForm() {
