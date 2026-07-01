@@ -249,8 +249,12 @@ let sortAsc = true;
 
 async function loadData() {
     try {
-        const res = await fetch(SHEET_URL);
-        const data = await res.json();
+        const response = await fetch(SHEET_URL, {
+          redirect: 'follow',
+          mode: 'no-cors'
+        });
+        const text = await response.text();
+        const data = JSON.parse(text);
         entries = data.filter(row => row['Player'] && row['Player'] !== '');
         renderTable();
         renderLeaderboard();
