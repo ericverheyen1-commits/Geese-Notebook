@@ -94,7 +94,7 @@
             display: flex;
             gap: 20px;
             padding: 20px;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             flex-wrap: wrap;
         }
@@ -188,7 +188,8 @@
         }
 
         .form-group input,
-        .form-group select {
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 9px 12px;
             background: #0d0d0d;
@@ -196,10 +197,18 @@
             border-radius: 6px;
             color: white;
             font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+            font-family: Arial, sans-serif;
         }
 
         .form-group input:focus,
-        .form-group select:focus {
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: #d50a0a;
         }
@@ -220,6 +229,7 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1px;
+            transition: background 0.3s;
         }
 
         .btn-add:hover {
@@ -307,6 +317,7 @@
         tbody td {
             padding: 12px 16px;
             font-size: 0.9rem;
+            vertical-align: middle;
         }
 
         .points-zero {
@@ -331,6 +342,24 @@
         .badge-K   { background: #7f8c8d; }
         .badge-DEF { background: #2c3e50; border: 1px solid #666; }
 
+        /* ===== ICE CHECKBOX ===== */
+        .ice-checkbox {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #f5a623;
+        }
+
+        .ice-drank {
+            color: #f5a623;
+            font-size: 1.2rem;
+        }
+
+        .ice-not-drank {
+            color: #444;
+            font-size: 1.2rem;
+        }
+
         /* ===== DELETE BUTTON ===== */
         .btn-delete {
             background: none;
@@ -340,12 +369,23 @@
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.8rem;
+            transition: all 0.3s;
         }
 
         .btn-delete:hover {
             background: #d50a0a;
             border-color: #d50a0a;
             color: white;
+        }
+
+        /* ===== NOTES CELL ===== */
+        .notes-cell {
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #888;
+            font-size: 0.85rem;
         }
 
         /* ===== EMPTY STATE ===== */
@@ -361,7 +401,7 @@
             font-weight: bold;
         }
 
-        /* ===== TOAST NOTIFICATION ===== */
+        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -441,6 +481,10 @@
         <div class="stat-number" id="stat-worst">0</div>
         <div class="stat-label">Most By One Team</div>
     </div>
+    <div class="stat-box">
+        <div class="stat-number" id="stat-iced">0</div>
+        <div class="stat-label">Ices Drank 🍋</div>
+    </div>
 </div>
 
 <!-- MAIN LAYOUT -->
@@ -469,33 +513,3 @@
                     <option value="">Select Week</option>
                     <option>1</option><option>2</option>
                     <option>3</option><option>4</option>
-                    <option>5</option><option>6</option>
-                    <option>7</option><option>8</option>
-                    <option>9</option><option>10</option>
-                    <option>11</option><option>12</option>
-                    <option>13</option><option>14</option>
-                    <option>15</option><option>16</option>
-                    <option>17</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Player Name</label>
-                <input type="text" id="form-player"
-                       placeholder="e.g. Patrick Mahomes">
-            </div>
-
-            <div class="form-group">
-                <label>NFL Team</label>
-                <input type="text" id="form-nfl-team"
-                       placeholder="e.g. KC">
-            </div>
-
-            <div class="form-group">
-                <label>Position</label>
-                <select id="form-position">
-                    <option value="">Select Position</option>
-                    <option value="QB">QB</option>
-                    <option value="RB">RB</option>
-                    <option value="WR">WR</option>
-                    <option value="
