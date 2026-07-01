@@ -1,10 +1,501 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Zero Points Tracker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏈 Zero Points Tracker</title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0d0d0d;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, #013369, #d50a0a);
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 4px solid #f5a623;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #ccc;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .espn-link {
+            display: inline-block;
+            margin-top: 10px;
+            background: #cc0000;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .espn-link:hover {
+            background: #ff0000;
+        }
+
+        /* ===== STATS BANNER ===== */
+        .stats-banner {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            background: #1a1a2e;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: #16213e;
+            border: 1px solid #2a2a4a;
+            border-radius: 10px;
+            padding: 15px 30px;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #d50a0a;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main-layout {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            flex: 0 0 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .card h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: #f5a623;
+            border-bottom: 1px solid #2a2a4a;
+            padding-bottom: 10px;
+        }
+
+        /* ===== LEADERBOARD ===== */
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #16213e;
+            border-radius: 8px;
+            border-left: 4px solid #2a2a4a;
+            transition: all 0.3s;
+        }
+
+        .leaderboard-item:hover {
+            border-left-color: #d50a0a;
+            transform: translateX(4px);
+        }
+
+        .leaderboard-item.first-place {
+            border-left-color: #d50a0a;
+            background: rgba(213, 10, 10, 0.1);
+        }
+
+        .team-rank {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #666;
+            width: 30px;
+        }
+
+        .team-name {
+            flex: 1;
+            margin-left: 10px;
+            font-size: 0.9rem;
+        }
+
+        .team-count {
+            background: #d50a0a;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        /* ===== FORM ===== */
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 9px 12px;
+            background: #0d0d0d;
+            border: 1px solid #2a2a4a;
+            border-radius: 6px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #d50a0a;
+        }
+
+        .form-group select option {
+            background: #0d0d0d;
+        }
+
+        .btn-add {
+            width: 100%;
+            padding: 10px;
+            background: #d50a0a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-add:hover {
+            background: #ff0000;
+        }
+
+        /* ===== TABLE SECTION ===== */
+        .table-section {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .table-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .table-controls input,
+        .table-controls select {
+            padding: 8px 14px;
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.85rem;
+        }
+
+        .table-controls input {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .table-controls input:focus,
+        .table-controls select:focus {
+            outline: none;
+            border-color: #d50a0a;
+        }
+
+        .table-controls select option {
+            background: #1a1a2e;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #2a2a4a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1a1a2e;
+        }
+
+        thead {
+            background: #013369;
+        }
+
+        thead th {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #f5a623;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        thead th:hover {
+            background: #014080;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #2a2a4a;
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: rgba(213, 10, 10, 0.08);
+        }
+
+        tbody td {
+            padding: 12px 16px;
+            font-size: 0.9rem;
+        }
+
+        .points-zero {
+            color: #d50a0a;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* ===== POSITION BADGES ===== */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .badge-QB  { background: #8e44ad; }
+        .badge-RB  { background: #27ae60; }
+        .badge-WR  { background: #2980b9; }
+        .badge-TE  { background: #e67e22; }
+        .badge-K   { background: #7f8c8d; }
+        .badge-DEF { background: #2c3e50; border: 1px solid #666; }
+
+        /* ===== DELETE BUTTON ===== */
+        .btn-delete {
+            background: none;
+            border: 1px solid #444;
+            color: #888;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .btn-delete:hover {
+            background: #d50a0a;
+            border-color: #d50a0a;
+            color: white;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #555;
+        }
+
+        .empty-state .big-zero {
+            font-size: 5rem;
+            color: #222;
+            font-weight: bold;
+        }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #28a745;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-weight: bold;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+            z-index: 999;
+        }
+
+        .toast.error {
+            background: #d50a0a;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #444;
+            font-size: 0.85rem;
+            border-top: 1px solid #1a1a2e;
+            margin-top: 40px;
+        }
+
+        .footer a {
+            color: #d50a0a;
+            text-decoration: none;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6rem; }
+            .sidebar { flex: 0 0 100%; }
+            .stats-banner { gap: 10px; }
+            .stat-box { min-width: 120px; padding: 12px 15px; }
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Zero Points Tracker</h1>
-    <p>Website is working!</p>
-</body>
-</html>
+
+<!-- HEADER -->
+<header class="header">
+    <h1>🏈 The Zero Club</h1>
+    <p>Fantasy Football's Hall of Shame &nbsp;|&nbsp; 2024 Season</p>
+    <a class="espn-link"
+       href="https://www.espn.com/fantasy/football/"
+       target="_blank">
+        📊 Open ESPN Fantasy Football
+    </a>
+</header>
+
+<!-- STATS BANNER -->
+<div class="stats-banner">
+    <div class="stat-box">
+        <div class="stat-number" id="stat-total">0</div>
+        <div class="stat-label">Total Zeroes</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-number" id="stat-teams">0</div>
+        <div class="stat-label">Teams Affected</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-number" id="stat-week">--</div>
+        <div class="stat-label">Latest Week</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-number" id="stat-worst">0</div>
+        <div class="stat-label">Most By One Team</div>
+    </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <!-- Shame Leaderboard -->
+        <div class="card">
+            <h2>🏆 Shame Board</h2>
+            <div id="leaderboard">
+                <p style="color:#555; font-size:0.85rem;">
+                    No entries yet.
+                </p>
+            </div>
+        </div>
+
+        <!-- Add Entry Form -->
+        <div class="card">
+            <h2>➕ Add Zero Entry</h2>
+
+            <div class="form-group">
+                <label>Week #</label>
+                <select id="form-week">
+                    <option value="">Select Week</option>
+                    <option>1</option><option>2</option>
+                    <option>3</option><option>4</option>
+                    <option>5</option><option>6</option>
+                    <option>7</option><option>8</option>
+                    <option>9</option><option>10</option>
+                    <option>11</option><option>12</option>
+                    <option>13</option><option>14</option>
+                    <option>15</option><option>16</option>
+                    <option>17</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Player Name</label>
+                <input type="text" id="form-player"
+                       placeholder="e.g. Patrick Mahomes">
+            </div>
+
+            <div class="form-group">
+                <label>NFL Team</label>
+                <input type="text" id="form-nfl-team"
+                       placeholder="e.g. KC">
+            </div>
+
+            <div class="form-group">
+                <label>Position</label>
+                <select id="form-position">
+                    <option value="">Select Position</option>
+                    <option value="QB">QB</option>
+                    <option value="RB">RB</option>
+                    <option value="WR">WR</option>
+                    <option value="
