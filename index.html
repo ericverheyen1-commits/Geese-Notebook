@@ -5,424 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏈 Steve Harvey's Goose Notebook</title>
     <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #0d0d0d;
-            color: white;
-            min-height: 100vh;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #013369, #d50a0a);
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 4px solid #f5a623;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            color: #ccc;
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-        }
-
-        .espn-link {
-            display: inline-block;
-            margin-top: 10px;
-            background: #cc0000;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-
-        .espn-link:hover {
-            background: #ff0000;
-        }
-
-        .stats-banner {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-            background: #1a1a2e;
-            flex-wrap: wrap;
-        }
-
-        .stat-box {
-            background: #16213e;
-            border: 1px solid #2a2a4a;
-            border-radius: 10px;
-            padding: 15px 30px;
-            text-align: center;
-            min-width: 150px;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #d50a0a;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: #aaa;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
-        }
-
-        .main-layout {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-            max-width: 1600px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-        }
-
-        .sidebar {
-            flex: 0 0 300px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .card {
-            background: #1a1a2e;
-            border: 1px solid #2a2a4a;
-            border-radius: 12px;
-            padding: 20px;
-        }
-
-        .card h2 {
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            color: #f5a623;
-            border-bottom: 1px solid #2a2a4a;
-            padding-bottom: 10px;
-        }
-
-        .leaderboard-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            margin-bottom: 8px;
-            background: #16213e;
-            border-radius: 8px;
-            border-left: 4px solid #2a2a4a;
-            transition: all 0.3s;
-        }
-
-        .leaderboard-item:hover {
-            border-left-color: #d50a0a;
-            transform: translateX(4px);
-        }
-
-        .leaderboard-item.first-place {
-            border-left-color: #d50a0a;
-            background: rgba(213, 10, 10, 0.1);
-        }
-
-        .team-rank {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #666;
-            width: 30px;
-        }
-
-        .team-name {
-            flex: 1;
-            margin-left: 10px;
-            font-size: 0.9rem;
-        }
-
-        .team-count {
-            background: #d50a0a;
-            color: white;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
-            color: #aaa;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 9px 12px;
-            background: #0d0d0d;
-            border: 1px solid #2a2a4a;
-            border-radius: 6px;
-            color: white;
-            font-size: 0.9rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 70px;
-            font-family: Arial, sans-serif;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #d50a0a;
-        }
-
-        .form-group select option {
-            background: #0d0d0d;
-        }
-
-        .btn-add {
-            width: 100%;
-            padding: 10px;
-            background: #d50a0a;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: background 0.3s;
-        }
-
-        .btn-add:hover {
-            background: #ff0000;
-        }
-
-        .table-section {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .table-controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .table-controls input,
-        .table-controls select {
-            padding: 8px 14px;
-            background: #1a1a2e;
-            border: 1px solid #2a2a4a;
-            border-radius: 8px;
-            color: white;
-            font-size: 0.85rem;
-        }
-
-        .table-controls input {
-            flex: 1;
-            min-width: 180px;
-        }
-
-        .table-controls input:focus,
-        .table-controls select:focus {
-            outline: none;
-            border-color: #d50a0a;
-        }
-
-        .table-controls select option {
-            background: #1a1a2e;
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid #2a2a4a;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #1a1a2e;
-        }
-
-        thead {
-            background: #013369;
-        }
-
-        thead th {
-            padding: 14px 16px;
-            text-align: left;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #f5a623;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-
-        thead th:hover {
-            background: #014080;
-        }
-
-        tbody tr {
-            border-bottom: 1px solid #2a2a4a;
-            transition: background 0.2s;
-        }
-
-        tbody tr:hover {
-            background: rgba(213, 10, 10, 0.08);
-        }
-
-        tbody td {
-            padding: 12px 16px;
-            font-size: 0.9rem;
-            vertical-align: middle;
-        }
-
-        .points-zero {
-            color: #d50a0a;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        .badge-QB  { background: #8e44ad; }
-        .badge-RB  { background: #27ae60; }
-        .badge-WR  { background: #2980b9; }
-        .badge-TE  { background: #e67e22; }
-        .badge-K   { background: #7f8c8d; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #0d0d0d; color: white; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #013369, #d50a0a); padding: 25px 20px; text-align: center; border-bottom: 4px solid #f5a623; }
+        .header h1 { font-size: 2.5rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 5px; }
+        .header p { color: #ccc; font-size: 0.95rem; margin-bottom: 10px; }
+        .espn-link { display: inline-block; margin-top: 10px; background: #cc0000; color: white; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.85rem; }
+        .espn-link:hover { background: #ff0000; }
+        .stats-banner { display: flex; justify-content: center; gap: 20px; padding: 20px; background: #1a1a2e; flex-wrap: wrap; }
+        .stat-box { background: #16213e; border: 1px solid #2a2a4a; border-radius: 10px; padding: 15px 30px; text-align: center; min-width: 150px; }
+        .stat-number { font-size: 2.5rem; font-weight: bold; color: #d50a0a; }
+        .stat-label { font-size: 0.75rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+        .main-layout { display: flex; gap: 20px; padding: 20px; max-width: 1600px; margin: 0 auto; flex-wrap: wrap; }
+        .sidebar { flex: 0 0 300px; display: flex; flex-direction: column; gap: 20px; }
+        .card { background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 12px; padding: 20px; }
+        .card h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; color: #f5a623; border-bottom: 1px solid #2a2a4a; padding-bottom: 10px; }
+        .leaderboard-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; margin-bottom: 8px; background: #16213e; border-radius: 8px; border-left: 4px solid #2a2a4a; transition: all 0.3s; }
+        .leaderboard-item:hover { border-left-color: #d50a0a; transform: translateX(4px); }
+        .leaderboard-item.first-place { border-left-color: #d50a0a; background: rgba(213, 10, 10, 0.1); }
+        .team-rank { font-size: 1.2rem; font-weight: bold; color: #666; width: 30px; }
+        .team-name { flex: 1; margin-left: 10px; font-size: 0.9rem; }
+        .team-count { background: #d50a0a; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 0.8rem; color: #aaa; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 9px 12px; background: #0d0d0d; border: 1px solid #2a2a4a; border-radius: 6px; color: white; font-size: 0.9rem; transition: border-color 0.3s; }
+        .form-group textarea { resize: vertical; min-height: 70px; font-family: Arial, sans-serif; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #d50a0a; }
+        .form-group select option { background: #0d0d0d; }
+        .btn-add { width: 100%; padding: 10px; background: #d50a0a; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.3s; }
+        .btn-add:hover { background: #ff0000; }
+        .btn-add:disabled { background: #555; cursor: not-allowed; }
+        .table-section { flex: 1; min-width: 0; }
+        .table-controls { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .table-controls input, .table-controls select { padding: 8px 14px; background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 8px; color: white; font-size: 0.85rem; }
+        .table-controls input { flex: 1; min-width: 180px; }
+        .table-controls input:focus, .table-controls select:focus { outline: none; border-color: #d50a0a; }
+        .table-controls select option { background: #1a1a2e; }
+        .table-wrapper { overflow-x: auto; border-radius: 12px; border: 1px solid #2a2a4a; }
+        table { width: 100%; border-collapse: collapse; background: #1a1a2e; }
+        thead { background: #013369; }
+        thead th { padding: 14px 16px; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #f5a623; white-space: nowrap; cursor: pointer; }
+        thead th:hover { background: #014080; }
+        tbody tr { border-bottom: 1px solid #2a2a4a; transition: background 0.2s; }
+        tbody tr:hover { background: rgba(213, 10, 10, 0.08); }
+        tbody td { padding: 12px 16px; font-size: 0.9rem; vertical-align: middle; }
+        .points-zero { color: #d50a0a; font-weight: bold; font-size: 1.1rem; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+        .badge-QB { background: #8e44ad; }
+        .badge-RB { background: #27ae60; }
+        .badge-WR { background: #2980b9; }
+        .badge-TE { background: #e67e22; }
+        .badge-K { background: #7f8c8d; }
         .badge-DEF { background: #2c3e50; border: 1px solid #666; }
-
-        .ice-checkbox {
-            width: 22px;
-            height: 22px;
-            cursor: pointer;
-            accent-color: #f5a623;
-        }
-
-        .btn-delete {
-            background: none;
-            border: 1px solid #444;
-            color: #888;
-            padding: 4px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-        }
-
-        .btn-delete:hover {
-            background: #d50a0a;
-            border-color: #d50a0a;
-            color: white;
-        }
-
-        .notes-cell {
-            max-width: 150px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: #888;
-            font-size: 0.85rem;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: #555;
-        }
-
-        .empty-state .big-zero {
-            font-size: 5rem;
-            color: #222;
-            font-weight: bold;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #28a745;
-            color: white;
-            padding: 14px 24px;
-            border-radius: 10px;
-            font-weight: bold;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s;
-            z-index: 999;
-        }
-
-        .toast.error {
-            background: #d50a0a;
-        }
-
-        .toast.show {
-            opacity: 1;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #444;
-            font-size: 0.85rem;
-            border-top: 1px solid #1a1a2e;
-            margin-top: 40px;
-        }
-
-        .footer a {
-            color: #d50a0a;
-            text-decoration: none;
-        }
-
+        .notes-cell { max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #888; font-size: 0.85rem; }
+        .empty-state { text-align: center; padding: 50px 20px; color: #555; }
+        .empty-state .big-zero { font-size: 5rem; color: #222; font-weight: bold; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: #28a745; color: white; padding: 14px 24px; border-radius: 10px; font-weight: bold; opacity: 0; pointer-events: none; transition: opacity 0.4s; z-index: 999; }
+        .toast.error { background: #d50a0a; }
+        .toast.show { opacity: 1; }
+        .footer { text-align: center; padding: 20px; color: #444; font-size: 0.85rem; border-top: 1px solid #1a1a2e; margin-top: 40px; }
+        .footer a { color: #d50a0a; text-decoration: none; }
         @media (max-width: 768px) {
             .header h1 { font-size: 1.6rem; }
             .sidebar { flex: 0 0 100%; }
             .stats-banner { gap: 10px; }
             .stat-box { min-width: 120px; padding: 12px 15px; }
         }
-
     </style>
 </head>
 <body>
@@ -430,80 +78,44 @@
 <header class="header">
     <h1>🏈 Steve Harvey's Goose Notebook</h1>
     <p>Fantasy Football's Hall of Shame &nbsp;|&nbsp; 2026 Season</p>
-    <a class="espn-link"
-       href="https://www.espn.com/fantasy/football/"
-       target="_blank">
-        📊 Open ESPN Fantasy Football
-    </a>
+    <a class="espn-link" href="https://www.espn.com/fantasy/football/" target="_blank">📊 Open ESPN Fantasy Football</a>
 </header>
 
 <div class="stats-banner">
-    <div class="stat-box">
-        <div class="stat-number" id="stat-total">0</div>
-        <div class="stat-label">Total Zeroes</div>
-    </div>
-    <div class="stat-box">
-        <div class="stat-number" id="stat-teams">0</div>
-        <div class="stat-label">Teams Affected</div>
-    </div>
-    <div class="stat-box">
-        <div class="stat-number" id="stat-week">--</div>
-        <div class="stat-label">Latest Week</div>
-    </div>
-    <div class="stat-box">
-        <div class="stat-number" id="stat-worst">0</div>
-        <div class="stat-label">Most By One Team</div>
-    </div>
-    <div class="stat-box">
-        <div class="stat-number" id="stat-iced">0</div>
-        <div class="stat-label">Ices Drank 🍋</div>
-    </div>
+    <div class="stat-box"><div class="stat-number" id="stat-total">0</div><div class="stat-label">Total Zeroes</div></div>
+    <div class="stat-box"><div class="stat-number" id="stat-teams">0</div><div class="stat-label">Teams Affected</div></div>
+    <div class="stat-box"><div class="stat-number" id="stat-week">--</div><div class="stat-label">Latest Week</div></div>
+    <div class="stat-box"><div class="stat-number" id="stat-worst">0</div><div class="stat-label">Most By One Team</div></div>
+    <div class="stat-box"><div class="stat-number" id="stat-iced">0</div><div class="stat-label">Ices Drank 🍋</div></div>
 </div>
 
 <div class="main-layout">
-
     <div class="sidebar">
-
         <div class="card">
             <h2>🏆 Shame Board</h2>
-            <div id="leaderboard">
-                <p style="color:#555; font-size:0.85rem;">
-                    Loading...
-                </p>
-            </div>
+            <div id="leaderboard"><p style="color:#555; font-size:0.85rem;">Loading...</p></div>
         </div>
-
         <div class="card">
             <h2>➕ Add Zero Entry</h2>
-
             <div class="form-group">
                 <label>Week #</label>
                 <select id="form-week">
                     <option value="">Select Week</option>
-                    <option>1</option><option>2</option>
-                    <option>3</option><option>4</option>
-                    <option>5</option><option>6</option>
-                    <option>7</option><option>8</option>
-                    <option>9</option><option>10</option>
-                    <option>11</option><option>12</option>
-                    <option>13</option><option>14</option>
-                    <option>15</option><option>16</option>
+                    <option>1</option><option>2</option><option>3</option><option>4</option>
+                    <option>5</option><option>6</option><option>7</option><option>8</option>
+                    <option>9</option><option>10</option><option>11</option><option>12</option>
+                    <option>13</option><option>14</option><option>15</option><option>16</option>
                     <option>17</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Player Name</label>
-                <input type="text" id="form-player"
-                       placeholder="e.g. Patrick Mahomes">
+                <input type="text" id="form-player" placeholder="e.g. Patrick Mahomes">
             </div>
-
             <div class="form-group">
                 <label>NFL Team</label>
-                <input type="text" id="form-nfl-team"
-                       placeholder="e.g. KC">
+                <input type="text" id="form-nfl-team" placeholder="e.g. KC">
             </div>
-
             <div class="form-group">
                 <label>Position</label>
                 <select id="form-position">
@@ -514,9 +126,8 @@
                     <option value="TE">TE</option>
                     <option value="K">K</option>
                     <option value="DEF">DEF</option>
-                                    </select>
+                </select>
             </div>
-
             <div class="form-group">
                 <label>Fantasy Team</label>
                 <select id="form-fantasy-team">
@@ -535,54 +146,35 @@
                     <option>Hollygrove Squabblers</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Game Date</label>
                 <input type="date" id="form-date">
             </div>
-
             <div class="form-group">
                 <label>Opponent</label>
-                <input type="text" id="form-opponent"
-                       placeholder="e.g. DAL vs NYG">
+                <input type="text" id="form-opponent" placeholder="e.g. DAL vs NYG">
             </div>
-
             <div class="form-group">
                 <label>Reason</label>
-                <input type="text" id="form-reason"
-                       placeholder="e.g. DNP, Injured, Bye Week">
+                <input type="text" id="form-reason" placeholder="e.g. DNP, Injured, Bye Week">
             </div>
-
             <div class="form-group">
                 <label>Notes</label>
-                <textarea id="form-notes"
-                          placeholder="Any additional notes..."></textarea>
+                <textarea id="form-notes" placeholder="Any additional notes..."></textarea>
             </div>
-
-            <button class="btn-add" onclick="addEntry()">
-                ➕ Add To Shame List
-            </button>
+            <button class="btn-add" id="submit-btn" onclick="addEntry()">➕ Add To Shame List</button>
         </div>
-
     </div>
 
     <div class="table-section">
-
         <div class="table-controls">
-            <input type="text"
-                   id="search-input"
-                   placeholder="🔍 Search player or team..."
-                   oninput="renderTable()">
+            <input type="text" id="search-input" placeholder="🔍 Search player or team..." oninput="renderTable()">
             <select id="filter-week" onchange="renderTable()">
                 <option value="all">All Weeks</option>
-                <option>1</option><option>2</option>
-                <option>3</option><option>4</option>
-                <option>5</option><option>6</option>
-                <option>7</option><option>8</option>
-                <option>9</option><option>10</option>
-                <option>11</option><option>12</option>
-                <option>13</option><option>14</option>
-                <option>15</option><option>16</option>
+                <option>1</option><option>2</option><option>3</option><option>4</option>
+                <option>5</option><option>6</option><option>7</option><option>8</option>
+                <option>9</option><option>10</option><option>11</option><option>12</option>
+                <option>13</option><option>14</option><option>15</option><option>16</option>
                 <option>17</option>
             </select>
             <select id="filter-team" onchange="renderTable()">
@@ -594,7 +186,8 @@
                 <option>Old School</option>
                 <option>Kickers Win Championships</option>
                 <option>SKEEYEE</option>
-                <option>1K Wolfpack</option>
+                <option>   
+                1K Wolfpack</option>
                 <option>Team Gross</option>
                 <option>Judkins Knuckles</option>
                 <option>Trash Pandas</option>
@@ -628,36 +221,27 @@
                         <th onclick="sortBy('Ice Drank?')">Ice Drank? 🍋 ↕</th>
                     </tr>
                 </thead>
-                <tbody id="table-body">
-                </tbody>
+                <tbody id="table-body"></tbody>
             </table>
         </div>
 
         <div class="empty-state" id="empty-state">
             <div class="big-zero">0</div>
             <p>No zero point players yet.</p>
-            <p style="font-size:0.85rem; margin-top:8px;">
-                Add an entry to your Google Sheet!
-            </p>
+            <p style="font-size:0.85rem; margin-top:8px;">Add an entry using the form!</p>
         </div>
-
     </div>
 </div>
 
 <footer class="footer">
-    <p>
-        🏈 Steve Harvey's Goose Notebook &nbsp;|&nbsp;
-        <a href="https://www.espn.com/fantasy/football/"
-           target="_blank">
-            ESPN Fantasy Football ↗
-        </a>
+    <p>🏈 Steve Harvey's Goose Notebook &nbsp;|&nbsp;
+        <a href="https://www.espn.com/fantasy/football/" target="_blank">ESPN Fantasy Football ↗</a>
     </p>
 </footer>
 
 <div class="toast" id="toast"></div>
 
 <script>
-
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzndOOGdntENaqQoFYZRvBScwYzNoonNWr81iPG0DpXPNPGtiOThXzEmPIhvW36AiyMLg/exec';
 
 let entries = [];
@@ -700,22 +284,16 @@ function renderTable() {
             String(e['Fantasy Team']).toLowerCase().includes(search) ||
             String(e['Team']).toLowerCase().includes(search) ||
             String(e['Opponent']).toLowerCase().includes(search);
-        const matchWeek =
-            week === 'all' || String(e['Week']) === String(week);
-        const matchTeam =
-            team === 'all' || e['Fantasy Team'] === team;
-        const matchPos =
-            position === 'all' || e['Position'] === position;
+        const matchWeek = week === 'all' || String(e['Week']) === String(week);
+        const matchTeam = team === 'all' || e['Fantasy Team'] === team;
+        const matchPos  = position === 'all' || e['Position'] === position;
         return matchSearch && matchWeek && matchTeam && matchPos;
     });
 
     filtered.sort((a, b) => {
         let valA = a[sortField];
         let valB = b[sortField];
-        if (typeof valA === 'string') {
-            valA = valA.toLowerCase();
-            valB = valB.toLowerCase();
-        }
+        if (typeof valA === 'string') { valA = valA.toLowerCase(); valB = valB.toLowerCase(); }
         if (valA < valB) return sortAsc ? -1 : 1;
         if (valA > valB) return sortAsc ? 1 : -1;
         return 0;
@@ -732,31 +310,19 @@ function renderTable() {
 
     emptyState.style.display = 'none';
 
-    tbody.innerHTML = filtered.map((e, i) => `
+    tbody.innerHTML = filtered.map((e) => `
         <tr>
             <td><strong>Week ${e['Week']}</strong></td>
             <td style="white-space:nowrap;">${e['Date'] || '—'}</td>
             <td><strong>${e['Player']}</strong></td>
             <td>${e['Team'] || '—'}</td>
-            <td>
-                <span class="badge badge-${e['Position']}">
-                    ${e['Position'] || '—'}
-                </span>
-            </td>
+            <td><span class="badge badge-${e['Position']}">${e['Position'] || '—'}</span></td>
             <td>${e['Fantasy Team'] || '—'}</td>
             <td>${e['Opponent'] || '—'}</td>
             <td class="points-zero">0</td>
-            <td style="color:#888; font-size:0.85rem;">
-                ${e['Reason'] || '—'}
-            </td>
-            <td class="notes-cell" title="${e['Notes'] || ''}">
-                ${e['Notes'] || '—'}
-            </td>
-            <td style="text-align:center;">
-                ${e['Ice Drank?'] === 'TRUE' || e['Ice Drank?'] === true
-                    ? '🍋'
-                    : '—'}
-            </td>
+            <td style="color:#888; font-size:0.85rem;">${e['Reason'] || '—'}</td>
+            <td class="notes-cell" title="${e['Notes'] || ''}">${e['Notes'] || '—'}</td>
+            <td style="text-align:center;">${e['Ice Drank?'] === 'TRUE' || e['Ice Drank?'] === true ? '🍋' : '—'}</td>
         </tr>
     `).join('');
 }
@@ -768,24 +334,18 @@ function renderLeaderboard() {
         if (team) counts[team] = (counts[team] || 0) + 1;
     });
 
-    const sorted = Object.entries(counts)
-        .sort((a, b) => b[1] - a[1]);
-
-    const board = document.getElementById('leaderboard');
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    const board  = document.getElementById('leaderboard');
 
     if (sorted.length === 0) {
-        board.innerHTML =
-            '<p style="color:#555; font-size:0.85rem;">No entries yet.</p>';
+        board.innerHTML = '<p style="color:#555; font-size:0.85rem;">No entries yet.</p>';
         return;
     }
 
     const medals = ['🥇', '🥈', '🥉'];
-
     board.innerHTML = sorted.map(([team, count], i) => `
         <div class="leaderboard-item ${i === 0 ? 'first-place' : ''}">
-            <span class="team-rank">
-                ${medals[i] || `#${i + 1}`}
-            </span>
+            <span class="team-rank">${medals[i] || '#' + (i + 1)}</span>
             <span class="team-name">${team}</span>
             <span class="team-count">${count}</span>
         </div>
@@ -794,27 +354,17 @@ function renderLeaderboard() {
 
 function updateStats() {
     const total = entries.length;
-
-    const teams = new Set(
-        entries.map(e => e['Fantasy Team'])
-    ).size;
-
+    const teams = new Set(entries.map(e => e['Fantasy Team'])).size;
     const latestWeek = entries.length > 0
         ? Math.max(...entries.map(e => parseInt(e['Week']) || 0))
         : '--';
-
     const counts = {};
     entries.forEach(e => {
         const team = e['Fantasy Team'];
         if (team) counts[team] = (counts[team] || 0) + 1;
     });
-    const worst = counts && Object.keys(counts).length > 0
-        ? Math.max(...Object.values(counts))
-        : 0;
-
-    const iced = entries.filter(e =>
-        e['Ice Drank?'] === 'TRUE' || e['Ice Drank?'] === true
-    ).length;
+    const worst = Object.keys(counts).length > 0 ? Math.max(...Object.values(counts)) : 0;
+    const iced  = entries.filter(e => e['Ice Drank?'] === 'TRUE' || e['Ice Drank?'] === true).length;
 
     document.getElementById('stat-total').textContent = total;
     document.getElementById('stat-teams').textContent = teams;
@@ -823,7 +373,7 @@ function updateStats() {
     document.getElementById('stat-iced').textContent  = iced;
 }
 
-function addEntry() {
+async function addEntry() {
     const week        = document.getElementById('form-week').value;
     const player      = document.getElementById('form-player').value.trim();
     const nflTeam     = document.getElementById('form-nfl-team').value.trim();
@@ -839,8 +389,30 @@ function addEntry() {
         return;
     }
 
-    showToast(`${player} added! Update your Google Sheet to see them here. 🏈`);
-    clearForm();
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    const params = new URLSearchParams({
+        action: 'add',
+        week, player,
+        team: nflTeam,
+        position, fantasyTeam,
+        date, opponent,
+        reason, notes
+    });
+
+    try {
+        await fetch(SHEET_URL + '?' + params.toString());
+        showToast(player + ' added to the Shame List! 🏈');
+        clearForm();
+        setTimeout(loadData, 2000);
+    } catch(err) {
+        showToast('Error saving entry!', true);
+    }
+
+    btn.disabled = false;
+    btn.textContent = '➕ Add To Shame List';
 }
 
 function clearForm() {
@@ -861,14 +433,11 @@ function showToast(msg, isError = false) {
     toast.textContent = msg;
     toast.className = 'toast' + (isError ? ' error' : '') + ' show';
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-        toast.className = 'toast';
-    }, 3000);
+    toastTimer = setTimeout(() => { toast.className = 'toast'; }, 3000);
 }
 
 loadData();
 setInterval(loadData, 30000);
-
 </script>
 </body>
 </html>
