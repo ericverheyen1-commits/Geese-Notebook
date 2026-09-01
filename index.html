@@ -389,6 +389,7 @@ async function addEntry() {
     const opponent    = document.getElementById('form-opponent').value.trim();
     const reason      = document.getElementById('form-reason').value.trim();
     const notes       = document.getElementById('form-notes').value.trim();
+    const iceDrank    = document.getElementById('form-ice-drank').value;
 
     if (!week || !player || !nflTeam || !position || !fantasyTeam) {
         showToast('Please fill in all required fields!', true);
