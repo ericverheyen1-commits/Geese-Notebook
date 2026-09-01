@@ -154,20 +154,20 @@
                 <label>Opponent</label>
                 <input type="text" id="form-opponent" placeholder="e.g. DAL vs NYG">
             </div>
-            <div class="form-group">
+                       <div class="form-group">
                 <label>Reason</label>
                 <input type="text" id="form-reason" placeholder="e.g. DNP, Injured, Bye Week">
             </div>
             <div class="form-group">
+                <label>Ice Drank?</label>
+                <select id="form-ice-drank">
+                    <option value="">-- Select --</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label>Notes</label>
-                <div class="form-group">
-                    <label>Ice Drank?</label>
-                    <select id="form-ice-drank">
-                        <option value="">-- Select --</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                </div>
                 <textarea id="form-notes" placeholder="Any additional notes..."></textarea>
             </div>
             <button class="btn-add" id="submit-btn" onclick="addEntry()">➕ Add To Shame List</button>
