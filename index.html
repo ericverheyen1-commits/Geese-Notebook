@@ -336,7 +336,8 @@ function renderTable() {
             <td class="points-zero">0</td>
             <td style="color:#888; font-size:0.85rem;">${e.reason || '—'}</td>
             <td class="notes-cell" title="${e.notes || ''}">${e.notes || '—'}</td>
-            <td style="text-align:center; cursor: pointer;" onclick="toggleIceDrank('${e.id}', '${e.ice_drank}')">${e.ice_drank || '—'}</td><button class="delete-btn" onclick="deleteEntry(${e.id})">🗑️</button>
+            <td style="text-align:center; cursor: pointer;" onclick="toggleIceDrank('${e.id}', '${e.ice_drank}')">${e.ice_drank || '—'}</td>
+            <td><button class="delete-btn" onclick="deleteEntry(${e.id})">🗑️</button></td>
         </tr>
     `).join('');
 }
@@ -420,7 +421,6 @@ async function addEntry() {
         notes: String(notes),
         ice_drank: String(iceDrank)
     };
-    console.log('Sending:', payload);
 
     try {
         const res = await fetch(SUPABASE_URL + '/rest/v1/entries', {
@@ -433,25 +433,6 @@ async function addEntry() {
             },
             body: JSON.stringify(payload)
         }); 
-        console.log('Response status:', res.status);
-        if (res.ok) {
-            showToast('Entry added to the Shame List! 🏈');
-            clearForm();
-            loadData();
-        } else {
-            const errText = await res.text();
-            console.log('Error response:', errText);
-            showToast('Error saving entry!', true);
-        }
-    } catch(err) {
-        console.log('Catch error:', err);
-        showToast('Error saving entry!', true);
-    }
-
-    btn.disabled = false;
-    btn.textContent = '➕ Add To Shame List';
-}
-                }); 
         if (res.ok) {
             showToast('Entry added to the Shame List! 🏈');
             clearForm();
@@ -477,7 +458,7 @@ function clearForm() {
     document.getElementById('form-opponent').value     = '';
     document.getElementById('form-reason').value       = '';
     document.getElementById('form-notes').value        = '';
-    document.getElementById('form-ice-drank').value = '';
+    document.getElementById('form-ice-drank').value    = '';
 }
 
 let toastTimer;
@@ -489,8 +470,6 @@ function showToast(msg, isError = false) {
     toastTimer = setTimeout(() => { toast.className = 'toast'; }, 3000);
 }
 
-loadData();
-setInterval(loadData, 30000);
 async function toggleIceDrank(entryId, currentValue) {
     const newValue = currentValue === 'Yes' ? 'No' : 'Yes';
     
@@ -506,6 +485,7 @@ async function toggleIceDrank(entryId, currentValue) {
     
     loadData();
 }
+
 async function deleteEntry(id) {
     if (!confirm('Delete this entry?')) return;
 
@@ -528,6 +508,7 @@ async function deleteEntry(id) {
         showToast('Error deleting entry!', true);
     }
 }
+
+loadData();
+setInterval(loadData, 30000);
 </script>
-</body>
-</html>
