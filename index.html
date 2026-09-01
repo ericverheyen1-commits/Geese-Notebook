@@ -32,6 +32,19 @@
         .form-group textarea { resize: vertical; min-height: 70px; font-family: Arial, sans-serif; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #d50a0a; }
         .form-group select option { background: #0d0d0d; }
+        .delete-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .delete-btn:hover {
+            background: #ff5252;
+}
         .btn-add { width: 100%; padding: 10px; background: #d50a0a; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.3s; }
         .btn-add:hover { background: #ff0000; }
         .btn-add:disabled { background: #555; cursor: not-allowed; }
@@ -505,6 +518,28 @@ async function toggleIceDrank(entryId, currentValue) {
     });
     
     loadData();
+}
+async function deleteEntry(id) {
+    if (!confirm('Delete this entry?')) return;
+
+    try {
+        const res = await fetch(SUPABASE_URL + '/rest/v1/entries?id=eq.' + id, {
+            method: 'DELETE',
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_KEY
+            }
+        });
+        if (res.ok) {
+            showToast('Entry deleted! 🗑️');
+            loadData();
+        } else {
+            showToast('Error deleting entry!', true);
+        }
+    } catch(err) {
+        console.log('Delete error:', err);
+        showToast('Error deleting entry!', true);
+    }
 }
 </script>
 </body>
