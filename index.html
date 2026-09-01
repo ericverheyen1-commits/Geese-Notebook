@@ -247,7 +247,6 @@
 </footer>
 
 <div class="toast" id="toast"></div>
-
 <script>
 const SUPABASE_URL = 'https://yugecznvvidzsylsuwsu.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1Z2Vjem52dmlkenN5bHN1d3N1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MjE2NTIsImV4cCI6MjA5ODQ5NzY1Mn0.BmYxQ1Irwv6QAM1BTXgU5N74R8gOWJyq4X-IBab4cjo';
@@ -337,7 +336,6 @@ function renderTable() {
             <td style="color:#888; font-size:0.85rem;">${e.reason || '—'}</td>
             <td class="notes-cell" title="${e.notes || ''}">${e.notes || '—'}</td>
             <td style="text-align:center; cursor: pointer;" onclick="toggleIceDrank('${e.id}', '${e.ice_drank}')">${e.ice_drank || '—'}</td>
-            <td><button class="delete-btn" onclick="deleteEntry(${e.id})">🗑️</button></td>
         </tr>
     `).join('');
 }
@@ -484,29 +482,6 @@ async function toggleIceDrank(entryId, currentValue) {
     });
     
     loadData();
-}
-
-async function deleteEntry(id) {
-    if (!confirm('Delete this entry?')) return;
-
-    try {
-        const res = await fetch(SUPABASE_URL + '/rest/v1/entries?id=eq.' + id, {
-            method: 'DELETE',
-            headers: {
-                'apikey': SUPABASE_KEY,
-                'Authorization': 'Bearer ' + SUPABASE_KEY
-            }
-        });
-        if (res.ok) {
-            showToast('Entry deleted! 🗑️');
-            loadData();
-        } else {
-            showToast('Error deleting entry!', true);
-        }
-    } catch(err) {
-        console.log('Delete error:', err);
-        showToast('Error deleting entry!', true);
-    }
 }
 
 loadData();
