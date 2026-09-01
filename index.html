@@ -336,7 +336,7 @@ function renderTable() {
             <td class="points-zero">0</td>
             <td style="color:#888; font-size:0.85rem;">${e.reason || '—'}</td>
             <td class="notes-cell" title="${e.notes || ''}">${e.notes || '—'}</td>
-            <td style="text-align:center; cursor: pointer;" onclick="toggleIceDrank('${e.id}', '${e.ice_drank_yn}')">${e.ice_drank_yn || '—'}</td>
+            <td style="text-align:center; cursor: pointer;" onclick="toggleIceDrank('${e.id}', '${e.ice_drank}')">${e.ice_drank || '—'}</td>
         </tr>
     `).join('');
 }
@@ -424,7 +424,7 @@ async function addEntry() {
                 fantasy_team: fantasyTeam,
                 date, opponent,
                 reason, notes,
-                ice_drank_yn: iceDrank
+                ice_drank: iceDrank
             })
                 }); 
         if (res.ok) {
@@ -476,7 +476,7 @@ async function toggleIceDrank(entryId, currentValue) {
             'Authorization': 'Bearer ' + SUPABASE_KEY,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ ice_drank_yn: newValue })
+        body: JSON.stringify({ ice_drank: newValue })
     });
     
     loadData();
