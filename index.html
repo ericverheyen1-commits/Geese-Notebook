@@ -410,15 +410,15 @@ async function addEntry() {
                 'Prefer': 'return=minimal'
             },
             body: JSON.stringify({
-    week, player,
-    team: nflTeam,
-    position,
-    fantasy_team: fantasyTeam,
-    date, opponent,
-    reason, notes,
-    ice_drank_yn: iceDrank
-})
-        }); 
+                week, player,
+                team: nflTeam,
+                position,
+                fantasy_team: fantasyTeam,
+                date, opponent,
+                reason, notes,
+                ice_drank_yn: iceDrank
+            })
+                }); 
         if (res.ok) {
             showToast('Entry added to the Shame List! 🏈');
             clearForm();
