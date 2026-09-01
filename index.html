@@ -336,7 +336,7 @@ function renderTable() {
             <td class="points-zero">0</td>
             <td style="color:#888; font-size:0.85rem;">${e.reason || '—'}</td>
             <td class="notes-cell" title="${e.notes || ''}">${e.notes || '—'}</td>
-            <td style="text-align:center; cursor: pointer;" onclick="toggleIceDrank('${e.id}', '${e.ice_drank}')">${e.ice_drank || '—'}</td>
+            <td style="text-align:center; cursor: pointer;" onclick="toggleIceDrank('${e.id}', '${e.ice_drank}')">${e.ice_drank || '—'}</td><button class="delete-btn" onclick="deleteEntry(${e.id})">🗑️</button>
         </tr>
     `).join('');
 }
