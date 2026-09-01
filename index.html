@@ -328,7 +328,7 @@ function renderTable() {
             <td class="points-zero">0</td>
             <td style="color:#888; font-size:0.85rem;">${e.reason || '—'}</td>
             <td class="notes-cell" title="${e.notes || ''}">${e.notes || '—'}</td>
-            <td style="text-align:center;">${e.ice_drank ? '🍋' : '—'}</td>
+            <td style="text-align:center;">${e.ice_drank_yn || '—'}</td>
         </tr>
     `).join('');
 }
