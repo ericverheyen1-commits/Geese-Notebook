@@ -418,13 +418,16 @@ async function addEntry() {
                 'Prefer': 'return=minimal'
             },
             body: JSON.stringify({
-                week, player,
-                team: nflTeam,
-                position,
-                fantasy_team: fantasyTeam,
-                date, opponent,
-                reason, notes,
-                ice_drank: iceDrank
+                week: String(week),
+                player: String(player),
+                team: String(nflTeam),
+                position: String(position),
+                fantasy_team: String(fantasyTeam),
+                date: String(date),
+                opponent: String(opponent),
+                reason: String(reason),
+                notes: String(notes),
+                ice_drank: String(iceDrank)
             })
                 }); 
         if (res.ok) {
