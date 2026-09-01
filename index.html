@@ -418,7 +418,7 @@ async function addEntry() {
                 reason, notes,
                 ice_drank_yn: iceDrank
             })
-
+                });
         if (res.ok) {
             showToast('Entry added to the Shame List! 🏈');
             clearForm();
@@ -470,7 +470,7 @@ async function toggleIceDrank(entryId, currentValue) {
         body: JSON.stringify({ ice_drank_yn: newValue })
     });
     
-    loadEntries();
+    loadData();
 }
 </script>
 </body>
