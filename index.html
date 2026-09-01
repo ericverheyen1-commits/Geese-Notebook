@@ -408,6 +408,20 @@ async function addEntry() {
     btn.disabled = true;
     btn.textContent = 'Saving...';
 
+    const payload = {
+        week: String(week),
+        player: String(player),
+        team: String(nflTeam),
+        position: String(position),
+        fantasy_team: String(fantasyTeam),
+        date: String(date),
+        opponent: String(opponent),
+        reason: String(reason),
+        notes: String(notes),
+        ice_drank: String(iceDrank)
+    };
+    console.log('Sending:', payload);
+
     try {
         const res = await fetch(SUPABASE_URL + '/rest/v1/entries', {
             method: 'POST',
@@ -417,18 +431,26 @@ async function addEntry() {
                 'Content-Type': 'application/json',
                 'Prefer': 'return=minimal'
             },
-            body: JSON.stringify({
-                week: String(week),
-                player: String(player),
-                team: String(nflTeam),
-                position: String(position),
-                fantasy_team: String(fantasyTeam),
-                date: String(date),
-                opponent: String(opponent),
-                reason: String(reason),
-                notes: String(notes),
-                ice_drank: String(iceDrank)
-            })
+            body: JSON.stringify(payload)
+        }); 
+        console.log('Response status:', res.status);
+        if (res.ok) {
+            showToast('Entry added to the Shame List! 🏈');
+            clearForm();
+            loadData();
+        } else {
+            const errText = await res.text();
+            console.log('Error response:', errText);
+            showToast('Error saving entry!', true);
+        }
+    } catch(err) {
+        console.log('Catch error:', err);
+        showToast('Error saving entry!', true);
+    }
+
+    btn.disabled = false;
+    btn.textContent = '➕ Add To Shame List';
+}
                 }); 
         if (res.ok) {
             showToast('Entry added to the Shame List! 🏈');
