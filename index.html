@@ -484,7 +484,28 @@ async function toggleIceDrank(entryId, currentValue) {
     
     loadData();
 }
+async function deleteEntry(id) {
+    if (!confirm('Delete this entry?')) return;
 
+    try {
+        const res = await fetch(SUPABASE_URL + '/rest/v1/entries?id=eq.' + id, {
+            method: 'DELETE',
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_KEY
+            }
+        });
+        if (res.ok) {
+            showToast('Entry deleted! 🗑️');
+            loadData();
+        } else {
+            showToast('Error deleting entry!', true);
+        }
+    } catch(err) {
+        console.log('Delete error:', err);
+        showToast('Error deleting entry!', true);
+    }
+}
 loadData();
 setInterval(loadData, 30000);
 </script>
